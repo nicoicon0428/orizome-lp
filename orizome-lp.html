@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おりぞめ×キャラクターカード制作ワークショップ | 夏休み特別企画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Ruby text styling for furigana */
+        ruby {
+            ruby-align: center;
+        }
+        
+        rt {
+            font-size: 0.5em;
+            color: #666;
+        }
+        
+        /* Hero section ruby text should be white */
+        .hero rt {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 20px 0;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section:nth-child(even) {
+            background: #f8f9ff;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Workshop Cards */
+        .workshop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .workshop-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .workshop-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+        
+        .workshop-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .workshop-card .facilitator {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            padding-right: 50%;
+            text-align: right;
+        }
+        
+        .timeline-item:nth-child(even) {
+            padding-left: 50%;
+            text-align: left;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            margin: 0 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-left-color: white;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-right-color: white;
+        }
+        
+        .timeline-time {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .timeline-content h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .timeline-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Timeline dots */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: white;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            z-index: 3;
+        }
+        
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-card li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #555;
+        }
+        
+        .info-card li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        /* CTA Button */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 30px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        /* Alert Box */
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .alert h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .alert ul {
+            color: #856404;
+            margin-left: 20px;
+        }
+        
+        /* Collaborators */
+        .collaborators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .collaborator {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .collaborator:hover {
+            transform: translateY(-5px);
+        }
+        
+        .collaborator h4 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .collaborator p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .workshop-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                padding-left: 80px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            
+            .timeline-time {
+                left: 30px !important;
+                transform: translateX(-50%);
+            }
+            
+            .timeline-content {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            
+            .timeline-content::after {
+                display: none;
+            }
+            
+            .timeline-item::before {
+                left: 30px !important;
+            }
+            
+            .collaborators {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>おりぞめ×キャラクターカード<br><ruby>制作<rt>せいさく</rt></ruby>ワークショップ</h1>
+                <p class="hero-subtitle"><ruby>色彩<rt>しきさい</rt></ruby>と<ruby>偶然<rt>ぐうぜん</rt></ruby>の<ruby>美<rt>び</rt></ruby>を<ruby>楽<rt>たの</rt></ruby>しみ、AIと<ruby>一緒<rt>いっしょ</rt></ruby>にオリジナルキャラクターを<ruby>創造<rt>そうぞう</rt></ruby>しよう！</p>
+                <div class="date-badge">
+                    🌊 2025<ruby>年<rt>ねん</rt></ruby>7<ruby>月<rt>がつ</rt></ruby>21<ruby>日<rt>にち</rt></ruby>（<ruby>祝<rt>しゅく</rt></ruby>・<ruby>月<rt>げつ</rt></ruby>）<ruby>海<rt>うみ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby><ruby>開催<rt>かいさい</rt></ruby> 🌊
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">ワークショップについて</h2>
+            <p class="section-subtitle">イラストレーター・キャラクターデザイナーの<ruby>北沢<rt>きたざわ</rt></ruby><ruby>直樹<rt>なおき</rt></ruby>さんと、まるみデザインファームがコラボした<ruby>特別<rt>とくべつ</rt></ruby><ruby>企画<rt>きかく</rt></ruby>です。<ruby>夏休<rt>なつやす</rt></ruby>み<ruby>初日<rt>しょにち</rt></ruby>の<ruby>海<rt>うみ</rt></ruby>の<ruby>日<rt>ひ</rt></ruby>、<ruby>子<rt>こ</rt></ruby>どもたちと<ruby>一緒<rt>いっしょ</rt></ruby>にクリエイトを<ruby>楽<rt>たの</rt></ruby>しみましょう！</p>
+            
+            <div class="collaborators">
+                <div class="collaborator">
+                    <h4><ruby>北沢<rt>きたざわ</rt></ruby><ruby>直樹<rt>なおき</rt></ruby>さん</h4>
+                    <p>イラストレーター・キャラクターデザイナー</p>
+                </div>
+                <div class="collaborator">
+                    <h4>まるみデザインファーム</h4>
+                    <p>クリエイティブコラボレーション</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workshop Details -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">ワークショップ<ruby>内容<rt>ないよう</rt></ruby></h2>
+            <div class="workshop-grid">
+                <div class="workshop-card">
+                    <h3>🎨 <ruby>前半<rt>ぜんはん</rt></ruby>：おりぞめ<ruby>制作<rt>せいさく</rt></ruby></h3>
+                    <div class="facilitator">ナビゲーター：おりぞめのさち</div>
+                    <p><ruby>和紙<rt>わし</rt></ruby>を<ruby>折<rt>お</rt></ruby>って<ruby>染<rt>そ</rt></ruby>め、<ruby>偶然的<rt>ぐうぜんてき</rt></ruby>にできる<ruby>色<rt>いろ</rt></ruby>や<ruby>形<rt>かたち</rt></ruby>の<ruby>美<rt>うつく</rt></ruby>しさを<ruby>楽<rt>たの</rt></ruby>しみます。5<ruby>枚<rt>まい</rt></ruby><ruby>程度<rt>ていど</rt></ruby>を<ruby>制作<rt>せいさく</rt></ruby>し、お<ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>りの1<ruby>枚<rt>まい</rt></ruby>をカードの<ruby>背景<rt>はいけい</rt></ruby>に<ruby>使用<rt>しよう</rt></ruby>します。<ruby>色彩<rt>しきさい</rt></ruby>と<ruby>偶然<rt>ぐうぜん</rt></ruby>の<ruby>美<rt>び</rt></ruby>を<ruby>体験<rt>たいけん</rt></ruby>できる、<ruby>日本<rt>にっぽん</rt></ruby>の<ruby>伝統的<rt>でんとうてき</rt></ruby>な<ruby>技法<rt>ぎほう</rt></ruby>です。</p>
+                </div>
+                <div class="workshop-card">
+                    <h3>🤖 <ruby>後半<rt>こうはん</rt></ruby>：キャラクター＆カード<ruby>制作<rt>せいさく</rt></ruby></h3>
+                    <div class="facilitator">ナビゲーター：<ruby>北沢<rt>きたざわ</rt></ruby><ruby>直樹<rt>なおき</rt></ruby>さん・<ruby>土屋<rt>つちや</rt></ruby><ruby>愛矢<rt>あいや</rt></ruby>さん</div>
+                    <p>Adobe Expressの<ruby>画像<rt>がぞう</rt></ruby><ruby>生成<rt>せいせい</rt></ruby>AI<ruby>機能<rt>きのう</rt></ruby>を<ruby>使<rt>つか</rt></ruby>って、オリジナルキャラクターを<ruby>創造<rt>そうぞう</rt></ruby>します。プロンプトを<ruby>工夫<rt>くふう</rt></ruby>しながら、<ruby>前半<rt>ぜんはん</rt></ruby>で<ruby>作<rt>つく</rt></ruby>ったおりぞめを<ruby>背景<rt>はいけい</rt></ruby>に、<ruby>世界<rt>せかい</rt></ruby>に<ruby>一<rt>ひと</rt></ruby>つだけのキャラクターカードを<ruby>完成<rt>かんせい</rt></ruby>させます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title"><ruby>当日<rt>とうじつ</rt></ruby>のスケジュール</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">9:00</div>
+                    <div class="timeline-content">
+                        <h4><ruby>参加者<rt>さんかしゃ</rt></ruby><ruby>集合<rt>しゅうごう</rt></ruby>・<ruby>受付<rt>うけつけ</rt></ruby></h4>
+                        <p><ruby>大崎<rt>おおさき</rt></ruby>ゲートシティイーストタワー3F エレベーターホール</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">9:30-10:00</div>
+                    <div class="timeline-content">
+                        <h4>おりぞめワークショップ</h4>
+                        <p><ruby>説明<rt>せつめい</rt></ruby>＋<ruby>制作<rt>せいさく</rt></ruby><ruby>体験<rt>たいけん</rt></ruby>（<ruby>担当<rt>たんとう</rt></ruby>：おりぞめのさち）</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">10:00-10:15</div>
+                    <div class="timeline-content">
+                        <h4><ruby>休憩<rt>きゅうけい</rt></ruby>タイム</h4>
+                        <p>おりぞめ<ruby>乾燥<rt>かんそう</rt></ruby>・<ruby>背景<rt>はいけい</rt></ruby><ruby>撮影<rt>さつえい</rt></ruby>・<ruby>水分<rt>すいぶん</rt></ruby><ruby>補給<rt>ほきゅう</rt></ruby></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">10:15-11:45</div>
+                    <div class="timeline-content">
+                        <h4>キャラクター＆カード<ruby>制作<rt>せいさく</rt></ruby></h4>
+                        <p>AI<ruby>生成<rt>せいせい</rt></ruby><ruby>機能<rt>きのう</rt></ruby>を<ruby>使<rt>つか</rt></ruby>ったオリジナルカード<ruby>制作<rt>せいさく</rt></ruby></p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">11:45-12:00</div>
+                    <div class="timeline-content">
+                        <h4><ruby>発表<rt>はっぴょう</rt></ruby>＋<ruby>印刷<rt>いんさつ</rt></ruby></h4>
+                        <p><ruby>制作物<rt>せいさくぶつ</rt></ruby>の<ruby>発表<rt>はっぴょう</rt></ruby>と<ruby>記念品<rt>きねんひん</rt></ruby>の<ruby>印刷<rt>いんさつ</rt></ruby></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Info -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title"><ruby>開催<rt>かいさい</rt></ruby><ruby>概要<rt>がいよう</rt></ruby></h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📅 <ruby>開催<rt>かいさい</rt></ruby><ruby>日時<rt>にちじ</rt></ruby></h3>
+                    <p><strong>2025<ruby>年<rt>ねん</rt></ruby>7<ruby>月<rt>がつ</rt></ruby>21<ruby>日<rt>にち</rt></ruby>（<ruby>祝<rt>しゅく</rt></ruby>・<ruby>月<rt>げつ</rt></ruby>）</strong><br>
+                    9:00<ruby>集合<rt>しゅうごう</rt></ruby>、9:30<ruby>開始<rt>かいし</rt></ruby>〜12:00<ruby>終了<rt>しゅうりょう</rt></ruby></p>
+                </div>
+                <div class="info-card">
+                    <h3>👨‍👩‍👧‍👦 <ruby>対象<rt>たいしょう</rt></ruby>・<ruby>定員<rt>ていいん</rt></ruby></h3>
+                    <p><strong><ruby>親子<rt>おやこ</rt></ruby><ruby>参加<rt>さんか</rt></ruby>（2<ruby>歳<rt>さい</rt></ruby>〜<ruby>小学生<rt>しょうがくせい</rt></ruby><ruby>程度<rt>ていど</rt></ruby>）</strong><br>
+                    15〜20<ruby>組<rt>くみ</rt></ruby><ruby>程度<rt>ていど</rt></ruby>（<ruby>最大<rt>さいだい</rt></ruby>60<ruby>名<rt>めい</rt></ruby>まで）<br>
+                    <ruby>先着順<rt>せんちゃくじゅん</rt></ruby>での<ruby>受付<rt>うけつけ</rt></ruby>となります</p>
+                </div>
+                <div class="info-card">
+                    <h3>🏢 <ruby>会場<rt>かいじょう</rt></ruby></h3>
+                    <p><strong>Adobe<ruby>社<rt>しゃ</rt></ruby> 20<ruby>階<rt>かい</rt></ruby> Panorama</strong><br>
+                    <ruby>大崎<rt>おおさき</rt></ruby>ゲートシティイーストタワー</p>
+                </div>
+                <div class="info-card">
+                    <h3>💰 <ruby>参加費<rt>さんかひ</rt></ruby></h3>
+                    <p><strong><ruby>親子<rt>おやこ</rt></ruby>1<ruby>組<rt>くみ</rt></ruby>につき500<ruby>円<rt>えん</rt></ruby></strong><br>
+                    Peatixでの<ruby>事前<rt>じぜん</rt></ruby><ruby>決済<rt>けっさい</rt></ruby></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What to Bring -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title"><ruby>持<rt>も</rt></ruby>ち<ruby>物<rt>もの</rt></ruby></h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📱 デバイス<ruby>関連<rt>かんれん</rt></ruby></h3>
+                    <ul>
+                        <li><ruby>参加<rt>さんか</rt></ruby>するお<ruby>子<rt>こ</rt></ruby>さん1<ruby>人<rt>にん</rt></ruby>につき1<ruby>個<rt>こ</rt></ruby>のデバイス（パソコン・タブレット・スマホなど）</li>
+                        <li>おりぞめを<ruby>撮影<rt>さつえい</rt></ruby>できるデバイス（スマホ、デジカメなど）ご<ruby>家族<rt>かぞく</rt></ruby>で1<ruby>個<rt>こ</rt></ruby></li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🥤 その<ruby>他<rt>た</rt></ruby></h3>
+                    <ul>
+                        <li><ruby>水分<rt>すいぶん</rt></ruby><ruby>補給用<rt>ほきゅうよう</rt></ruby>の<ruby>飲<rt>の</rt></ruby>み<ruby>物<rt>もの</rt></ruby>（<ruby>熱中症<rt>ねっちゅうしょう</rt></ruby><ruby>対策<rt>たいさく</rt></ruby>）</li>
+                        <li>Adobe Expressの<ruby>基本的<rt>きほんてき</rt></ruby>な<ruby>使<rt>つか</rt></ruby>い<ruby>方<rt>かた</rt></ruby>を<ruby>事前<rt>じぜん</rt></ruby>に<ruby>予習<rt>よしゅう</rt></ruby></li>
+                        <li><ruby>汚<rt>よご</rt></ruby>れても<ruby>良<rt>よ</rt></ruby>い<ruby>服装<rt>ふくそう</rt></ruby>またはエプロン（おりぞめ<ruby>用<rt>よう</rt></ruby>）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Notes -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title"><ruby>重要<rt>じゅうよう</rt></ruby>な<ruby>留意点<rt>りゅういてん</rt></ruby></h2>
+            <div class="alert">
+                <h4>⚠️ かならずお<ruby>読<rt>よ</rt></ruby>みください</h4>
+                <ul>
+                    <li><strong>おりぞめについて：</strong><ruby>染料<rt>せんりょう</rt></ruby>を<ruby>使用<rt>しよう</rt></ruby>するため、<ruby>洋服<rt>ようふく</rt></ruby>に<ruby>付着<rt>ふちゃく</rt></ruby>すると<ruby>変色<rt>へんしょく</rt></ruby>し<ruby>落<rt>お</rt></ruby>ちません。<ruby>汚<rt>よご</rt></ruby>れても<ruby>良<rt>よ</rt></ruby>い<ruby>服装<rt>ふくそう</rt></ruby>でご<ruby>参加<rt>さんか</rt></ruby>ください</li>
+                    <li><strong><ruby>手<rt>て</rt></ruby>の<ruby>染料<rt>せんりょう</rt></ruby>：</strong><ruby>手<rt>て</rt></ruby>に<ruby>付着<rt>ふちゃく</rt></ruby>した<ruby>染料<rt>せんりょう</rt></ruby>は<ruby>数日<rt>すうじつ</rt></ruby>で<ruby>取<rt>と</rt></ruby>れますのでご<ruby>安心<rt>あんしん</rt></ruby>ください</li>
+                    <li><strong>Adobe Express：</strong><ruby>無料版<rt>むりょうばん</rt></ruby>は<ruby>生成数<rt>せいせいすう</rt></ruby>が<ruby>月<rt>つき</rt></ruby>25<ruby>回<rt>かい</rt></ruby>までの<ruby>制限<rt>せいげん</rt></ruby>があります</li>
+                    <li><strong><ruby>個人<rt>こじん</rt></ruby><ruby>情報<rt>じょうほう</rt></ruby>：</strong>Adobe<ruby>社<rt>しゃ</rt></ruby>へ<ruby>個人<rt>こじん</rt></ruby><ruby>情報<rt>じょうほう</rt></ruby>の<ruby>提供<rt>ていきょう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>となります</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- For Parents Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">保護者の方向けへ</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📋 事前準備のお願い</h3>
+                    <ul>
+                        <li><strong>Adobe Expressアカウント：</strong>無料アカウントの作成と基本操作の予習をお願いします</li>
+                        <li><strong>デバイス設定：</strong>お子さんが使用するデバイスでAdobe Expressにアクセスできることをご確認ください</li>
+                        <li><strong>撮影準備：</strong>おりぞめ作品を撮影するためのスマートフォンまたはデジタルカメラをご用意ください</li>
+                        <li><strong>服装：</strong>染料が付着する可能性があるため、汚れても良い服装または着替えをご準備ください</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>👨‍👩‍👧‍👦 当日のサポート</h3>
+                    <ul>
+                        <li><strong>お子さんへのサポート：</strong>デジタルツールの操作で困った際は、保護者の方からのサポートをお願いします</li>
+                        <li><strong>安全管理：</strong>おりぞめ制作時は染料を扱いますので、お子さんの安全管理にご協力ください</li>
+                        <li><strong>水分補給：</strong>暑い時期ですので、定期的な水分補給をお子さんに促してください</li>
+                        <li><strong>作品管理：</strong>完成した作品の印刷・持ち帰りは保護者の方が管理をお願いします</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🎯 学びのポイント</h3>
+                    <ul>
+                        <li><strong>創造性の育成：</strong>偶然性を楽しむおりぞめと、AIとの創造的な協働体験</li>
+                        <li><strong>デジタルリテラシー：</strong>AIツールの適切な使い方と可能性を学ぶ機会</li>
+                        <li><strong>伝統と革新：</strong>日本の伝統技法と最新テクノロジーの融合体験</li>
+                        <li><strong>表現力：</strong>自分のアイデアを形にする喜びと達成感の体験</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>ℹ️ その他の重要事項</h3>
+                    <ul>
+                        <li><strong>個人情報：</strong>Adobe社でのイベント開催のため、参加者情報の提供が必要です</li>
+                        <li><strong>撮影・SNS：</strong>イベントの様子を撮影し、今後の広報活動で使用する場合があります</li>
+                        <li><strong>打ち上げ：</strong>午後に別会場での打ち上げを予定しています（後日詳細をご案内）</li>
+                        <li><strong>お問い合わせ：</strong>当日の緊急連絡先は申込み完了後にご案内いたします</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 style="margin-bottom: 20px;">夏休みの素敵な思い出を作りませんか？</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px; opacity: 0.9;">
+                色彩と創造力が出会う特別な一日。お子さんの創造性を育む貴重な体験をお届けします。
+            </p>
+            <a href="#" class="cta-button">🎨 参加申し込み（Peatix）</a>
+            <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">
+                ※定員に達し次第、受付を終了いたします
+            </p>
+        </div>
+    </section>
+</body>
+</html>
